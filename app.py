@@ -11,6 +11,7 @@ Run locally:   streamlit run app.py
 import streamlit as st
 
 from ui.theme import THEME_CSS
+from utils.assessment_store import load_assessment_history
 from ui.pages import (
     render_sidebar, page_dashboard, page_new_assessment, page_applications,
     page_assessments, page_agent_execution, page_documents, page_reports,
@@ -32,7 +33,7 @@ def init_session_state():
         "wizard_step": "form",
         "current_applicant": None,
         "current_state": None,
-        "assessment_history": {},
+        "assessment_history": load_assessment_history(),
         "reviewer_name": "Analyst",
         "progress_started": False,
         "keep_wizard": False,

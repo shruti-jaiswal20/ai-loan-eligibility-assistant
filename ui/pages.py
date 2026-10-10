@@ -25,6 +25,7 @@ from agents.document_agent import process_document, find_discrepancies, FIELD_MA
 from utils.s3_storage import (_s3_configured, BUCKET_NAME, store_document,
                               status as s3_status, sync_all)
 from utils.audit_log import read_recent_events
+from utils.assessment_store import save_assessment_history
 from utils.portfolio import score_applicants
 
 from ui.components import (inr, badge, badge_html, topbar, stat_card, card_heading,
@@ -426,6 +427,13 @@ def _wizard_progress():
                     st.error(f"Assessment failed unexpectedly: {e}")
                     return
                 st.session_state.current_state = state
+                # Persist immediately, before the human-review step, so a refresh
+                # does not erase the assessment results already produced.
+                st.session_state.assessment_history[applicant["applicant_id"]] = {
+                    "state": state,
+                    "timestamp": datetime.now(),
+                }
+                save_assessment_history(st.session_state.assessment_history)
 
                 dstatus = state.get("document_status", "none")
                 n_issues = len(state.get("document_discrepancies", []))
@@ -646,6 +654,7 @@ def _wizard_review():
                 st.session_state.assessment_history[applicant["applicant_id"]] = {
                     "state": final_state, "timestamp": datetime.now(),
                 }
+                save_assessment_history(st.session_state.assessment_history)
                 st.session_state.wizard_step = "completed"
                 st.rerun()
 
