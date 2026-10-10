@@ -8,6 +8,8 @@ import json
 import time
 import random
 from datetime import datetime
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -131,8 +133,30 @@ def render_sidebar():
 
 # -------------------------------------------------------------- dashboard --
 
+def _dashboard_greeting() -> str:
+    """Return a time-appropriate greeting using the configured app timezone.
+
+    Set APP_TIMEZONE if the deployment should use a timezone other than India.
+    """
+    timezone_name = os.getenv("APP_TIMEZONE", "Asia/Kolkata")
+    try:
+        now = datetime.now(ZoneInfo(timezone_name))
+    except (ZoneInfoNotFoundError, ValueError):
+        now = datetime.now()
+
+    if 5 <= now.hour < 12:
+        greeting = "Good morning"
+    elif 12 <= now.hour < 17:
+        greeting = "Good afternoon"
+    elif 17 <= now.hour < 21:
+        greeting = "Good evening"
+    else:
+        greeting = "Good night"
+    return f"{greeting}, Analyst 👋"
+
+
 def page_dashboard():
-    topbar("Dashboard", "Good morning, Analyst 👋",
+    topbar("Dashboard", _dashboard_greeting(),
            "Monitor loan applications and AI workflow activity.",
            st.session_state.reviewer_name)
 

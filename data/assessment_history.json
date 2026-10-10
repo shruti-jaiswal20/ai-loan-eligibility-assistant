@@ -265,5 +265,94 @@
         "[OK] finalize"
       ]
     }
+  },
+  "APP-1035": {
+    "timestamp": "2026-10-10T19:11:28.954914",
+    "state": {
+      "applicant": {
+        "applicant_id": "APP-1035",
+        "name": "Sneha Singh",
+        "monthly_income": 44837,
+        "existing_monthly_emi": 8370,
+        "existing_loans_count": 0,
+        "credit_score": 729,
+        "bank_default_history": true,
+        "requested_loan_amount": 7500000,
+        "loan_purpose": "Home Purchase",
+        "loan_type": "Home Loan",
+        "tenure_years": 10,
+        "collateral_value": 9929030,
+        "years_at_current_job": 4.5,
+        "employment_type": "Self-Employed",
+        "city": "Hyderabad",
+        "age": 32
+      },
+      "document": null,
+      "document_status": "none",
+      "document_fields": {},
+      "document_summary": "",
+      "document_discrepancies": [],
+      "document_missing": [],
+      "document_reason": "",
+      "escalation_reasons": [],
+      "route": "standard",
+      "route_reason": "Loan amount INR 7,500,000 or credit score 729 falls outside fast-track thresholds, or a prior default exists -> routed to the standard path (Risk Agent will use full LLM+RAG-grounded classification).",
+      "financial_metrics": {
+        "proposed_emi": 99113.05,
+        "dti_ratio": 2.397,
+        "ltv_ratio": 0.755,
+        "annual_income_multiple": 13.94,
+        "credit_score": 729,
+        "employment_type": "Self-Employed",
+        "years_at_current_job": 4.5,
+        "prior_default": true
+      },
+      "financial_summary": "Sneha Singh earns ₹44,837 per month and currently services an EMI of ₹8,370; the proposed home‑loan EMI of ₹99,113 would raise her debt‑to‑income ratio to ≈ 2.40 (239 %). The loan‑to‑value ratio is 0.755, with collateral valued at ₹9,929,030 covering roughly 133 % of the requested ₹7,500,000. Although her credit score of 729 is solid and she has 4.5 years of self‑employment, the prior bank default and the very high DTI and annual‑income‑multiple (13.94) indicate elevated credit risk.",
+      "policy_context": "[Source: loan_eligibility_policy.pdf]\nstandard processing. 650-699: Fair - additional documentation and manual underwriting required. Below\n650: Poor - loan is declined unless strong collateral (>= 150% of loan value) is provided and approved by\nsenior underwriter.\n4. Debt-to-Income (DTI) Ratio Rules\nDTI ratio is computed as (existing EMIs + proposed EMI) / monthly income. DTI <= 0.35: Low risk, eligible\nfor standard approval. DTI above 0.35 and up to 0.50: Medium risk, requires risk-agent review and may\nrequire a co-applicant or reduced loan amount. DTI > 0.50: High risk, application must be routed to\nmanual/human underwriter review and is generally declined unless offset by high-value collateral.\n5. Collateral and Loan-to-Value (LTV)\n\n[Source: risk_assessment_guidelines.pdf]\nCredit Risk Assessment Guidelines\n1. Risk Classification Framework\nEvery application must be classified into one of three risk bands: LOW, MEDIUM, or HIGH. The\nclassification drives the routing decision in the agentic workflow (auto-recommend path vs. mandatory\nmanual review path).\n2. LOW Risk Criteria (all must be true)\nCredit score >= 700 AND DTI ratio <= 0.35 AND no prior default history AND employment tenure >= 1\nyear. LOW risk applications may proceed on the fast-track / expedited router path.\n3. MEDIUM Risk Criteria\nCredit score between 650 and 699, OR DTI ratio above 0.35 and up to 0.50, OR employment tenure below\n1 year, with no default history. MEDIUM risk applications follow the standard sequential path with full\nrisk-agent analysis and require branch-manager human approval.\n\n[Source: risk_assessment_guidelines.pdf]\nrisk-agent analysis and require branch-manager human approval.\n4. HIGH Risk Criteria (any one triggers HIGH)\nCredit score < 650, OR DTI ratio > 0.50, OR any prior default history, OR requested amount with zero\ncollateral exceeds INR 1,000,000. HIGH risk applications are always routed to mandatory senior human\nreview; the AI system must not issue an auto-approval recommendation.\n5. Escalation Triggers\nIf any single financial data field is missing or inconsistent (e.g., income reported as zero, negative EMI),\nthe workflow must halt automated processing and escalate directly to a human analyst rather than\nguessing values.\n6. Explainability Requirement\nEvery risk classification produced by the AI system must be accompanied by a plain-language explanation\n\n[Source: loan_eligibility_policy.pdf]\n5. Collateral and Loan-to-Value (LTV)\nFor secured loans, the Loan-to-Value ratio must not exceed 80% of the appraised collateral value. Loans\nwith no collateral above INR 1,000,000 require mandatory human approval regardless of credit score.\n6. Default History\nAny applicant with a prior bank default or written-off loan in the last 5 years is automatically flagged High\nRisk and requires senior underwriter sign-off before any approval can be issued.\n7. Approval Authority Matrix\nLoans up to INR 1,000,000 with Low Risk classification may be auto-approved by the AI recommendation\nsystem subject to a human reviewer's final sign-off. Loans between INR 1,000,000 and INR 5,000,000, or\nclassified Medium Risk, require review by a branch credit manager. Loans above INR 5,000,000, or",
+      "policy_sources": [
+        "loan_eligibility_policy.pdf",
+        "risk_assessment_guidelines.pdf"
+      ],
+      "policy_chunks": [
+        {
+          "text": "standard processing. 650-699: Fair - additional documentation and manual underwriting required. Below\n650: Poor - loan is declined unless strong collateral (>= 150% of loan value) is provided and approved by\nsenior underwriter.\n4. Debt-to-Income (DTI) Ratio Rules\nDTI ratio is computed as (existing EMIs + proposed EMI) / monthly income. DTI <= 0.35: Low risk, eligible\nfor standard approval. DTI above 0.35 and up to 0.50: Medium risk, requires risk-agent review and may\nrequire a co-applicant or reduced loan amount. DTI > 0.50: High risk, application must be routed to\nmanual/human underwriter review and is generally declined unless offset by high-value collateral.\n5. Collateral and Loan-to-Value (LTV)",
+          "source": "loan_eligibility_policy.pdf"
+        },
+        {
+          "text": "Credit Risk Assessment Guidelines\n1. Risk Classification Framework\nEvery application must be classified into one of three risk bands: LOW, MEDIUM, or HIGH. The\nclassification drives the routing decision in the agentic workflow (auto-recommend path vs. mandatory\nmanual review path).\n2. LOW Risk Criteria (all must be true)\nCredit score >= 700 AND DTI ratio <= 0.35 AND no prior default history AND employment tenure >= 1\nyear. LOW risk applications may proceed on the fast-track / expedited router path.\n3. MEDIUM Risk Criteria\nCredit score between 650 and 699, OR DTI ratio above 0.35 and up to 0.50, OR employment tenure below\n1 year, with no default history. MEDIUM risk applications follow the standard sequential path with full\nrisk-agent analysis and require branch-manager human approval.",
+          "source": "risk_assessment_guidelines.pdf"
+        },
+        {
+          "text": "risk-agent analysis and require branch-manager human approval.\n4. HIGH Risk Criteria (any one triggers HIGH)\nCredit score < 650, OR DTI ratio > 0.50, OR any prior default history, OR requested amount with zero\ncollateral exceeds INR 1,000,000. HIGH risk applications are always routed to mandatory senior human\nreview; the AI system must not issue an auto-approval recommendation.\n5. Escalation Triggers\nIf any single financial data field is missing or inconsistent (e.g., income reported as zero, negative EMI),\nthe workflow must halt automated processing and escalate directly to a human analyst rather than\nguessing values.\n6. Explainability Requirement\nEvery risk classification produced by the AI system must be accompanied by a plain-language explanation",
+          "source": "risk_assessment_guidelines.pdf"
+        },
+        {
+          "text": "5. Collateral and Loan-to-Value (LTV)\nFor secured loans, the Loan-to-Value ratio must not exceed 80% of the appraised collateral value. Loans\nwith no collateral above INR 1,000,000 require mandatory human approval regardless of credit score.\n6. Default History\nAny applicant with a prior bank default or written-off loan in the last 5 years is automatically flagged High\nRisk and requires senior underwriter sign-off before any approval can be issued.\n7. Approval Authority Matrix\nLoans up to INR 1,000,000 with Low Risk classification may be auto-approved by the AI recommendation\nsystem subject to a human reviewer's final sign-off. Loans between INR 1,000,000 and INR 5,000,000, or\nclassified Medium Risk, require review by a branch credit manager. Loans above INR 5,000,000, or",
+          "source": "loan_eligibility_policy.pdf"
+        }
+      ],
+      "risk_level": "HIGH",
+      "risk_explanation": "HIGH – The applicant has a prior default (policy 4 “any prior default history” triggers HIGH risk) and a DTI ratio of 2.397 (> 0.50, also defined in policy 4 as a HIGH‑risk condition). Both factors independently meet the HIGH‑risk criteria, so the application must be routed to mandatory senior human review.",
+      "recommendation": "REJECT",
+      "recommendation_explanation": "The application should be **rejected** and escalated for mandatory senior human review, as the applicant has a prior default (policy 4) and an extremely high DTI ratio of 2.397, both of which independently trigger the HIGH‑risk classification. Given these risk factors, the loan does not meet the bank’s underwriting criteria and requires a final decision from senior management.",
+      "requires_human_approval": true,
+      "human_decision": "REJECTED",
+      "human_reviewer": "Analyst",
+      "human_comment": "",
+      "is_valid": true,
+      "validation_errors": [],
+      "errors": [],
+      "trace": [
+        "[OK] document_extraction",
+        "[OK] validate_input",
+        "[OK] router",
+        "[OK] financial_analysis",
+        "[OK] policy_retrieval",
+        "[OK] risk_assessment",
+        "[OK] recommendation",
+        "[OK] human_approval_gate",
+        "[OK] finalize"
+      ]
+    }
   }
 }
