@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1025",
+  "name": "Amit Nair",
+  "age": 49,
+  "city": "Chennai",
+  "employment_type": "Self-Employed",
+  "years_at_current_job": 4.8,
+  "monthly_income": 97941,
+  "existing_monthly_emi": 7016.4,
+  "existing_loans_count": 3,
+  "credit_score": 615,
+  "bank_default_history": false,
+  "requested_loan_amount": 5000000,
+  "loan_purpose": "Home Renovation",
+  "tenure_years": 3,
+  "collateral_value": 4841212.94,
+  "estimated_dti_ratio": 1.719
+}

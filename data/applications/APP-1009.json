@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1009",
+  "name": "Arjun Patel",
+  "age": 42,
+  "city": "Chennai",
+  "employment_type": "Business Owner",
+  "years_at_current_job": 12.2,
+  "monthly_income": 187637,
+  "existing_monthly_emi": 16795.39,
+  "existing_loans_count": 0,
+  "credit_score": 751,
+  "bank_default_history": false,
+  "requested_loan_amount": 800000,
+  "loan_purpose": "Vehicle Purchase",
+  "tenure_years": 15,
+  "collateral_value": 551595.34,
+  "estimated_dti_ratio": 0.135
+}

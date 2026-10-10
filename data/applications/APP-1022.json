@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1022",
+  "name": "Karan Chatterjee",
+  "age": 40,
+  "city": "Hyderabad",
+  "employment_type": "Salaried",
+  "years_at_current_job": 11.3,
+  "monthly_income": 28929,
+  "existing_monthly_emi": 4342.26,
+  "existing_loans_count": 3,
+  "credit_score": 626,
+  "bank_default_history": false,
+  "requested_loan_amount": 2000000,
+  "loan_purpose": "Home Renovation",
+  "tenure_years": 5,
+  "collateral_value": 1215471.52,
+  "estimated_dti_ratio": 1.619
+}

@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1014",
+  "name": "Karan Kapoor",
+  "age": 26,
+  "city": "Bengaluru",
+  "employment_type": "Salaried",
+  "years_at_current_job": 4.2,
+  "monthly_income": 43889,
+  "existing_monthly_emi": 7951.79,
+  "existing_loans_count": 1,
+  "credit_score": 733,
+  "bank_default_history": false,
+  "requested_loan_amount": 500000,
+  "loan_purpose": "Home Renovation",
+  "tenure_years": 5,
+  "collateral_value": 468752.66,
+  "estimated_dti_ratio": 0.423
+}

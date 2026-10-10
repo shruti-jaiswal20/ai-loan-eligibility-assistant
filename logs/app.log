@@ -1,0 +1,193 @@
+2026-10-10 13:31:23 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 13:31:23 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 13:31:23 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 13:32:22 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 13:32:22 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 13:32:22 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 13:42:36 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 13:42:36 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 13:42:36 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 13:45:35 | WARNING | ai_loan_assistant.chat | LLM unavailable (Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}) — rule-based fallback for this step
+2026-10-10 13:45:46 | ERROR   | ai_loan_assistant.chat_tools | Tool search_policy failed
+Traceback (most recent call last):
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\agents\chat_tools.py", line 158, in execute_tool
+    result = fn(**{k: v for k, v in args.items() if k in fn.__code__.co_varnames[:fn.__code__.co_argcount]})
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\agents\chat_tools.py", line 95, in tool_search_policy
+    chunks = retrieve_policy_context(q, k=3)
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\rag\retriever.py", line 41, in retrieve_policy_context
+    docs = store.similarity_search(query, k=k)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_community\vectorstores\faiss.py", line 643, in similarity_search
+    docs_and_scores = self.similarity_search_with_score(
+        query, k, filter=filter, fetch_k=fetch_k, **kwargs
+    )
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_community\vectorstores\faiss.py", line 515, in similarity_search_with_score
+    embedding = self._embed_query(query)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_community\vectorstores\faiss.py", line 266, in _embed_query
+    return self.embedding_function.embed_query(text)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 807, in embed_query
+    return self.embed_documents([text], **kwargs)[0]
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 757, in embed_documents
+    return self._get_len_safe_embeddings(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        texts, engine=engine, chunk_size=chunk_size, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 624, in _get_len_safe_embeddings
+    response = self.client.create(input=batch_tokens, **client_kwargs)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\resources\embeddings.py", line 113, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/embeddings",
+        ^^^^^^^^^^^^^^
+    ...<9 lines>...
+        cast_to=CreateEmbeddingResponse,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\_base_client.py", line 1368, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\_base_client.py", line 1141, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}
+2026-10-10 13:45:51 | WARNING | ai_loan_assistant.chat | LLM unavailable (Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}) — rule-based fallback for this step
+2026-10-10 13:58:30 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (deadlock detected by _ModuleLock('openai.resources.embeddings') at 1897096562768); using rule-based output.
+2026-10-10 13:58:30 | ERROR   | ai_loan_assistant.workflow | Node policy_retrieval failed
+Traceback (most recent call last):
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\workflow\graph.py", line 70, in wrapper
+    result = fn(state)
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\workflow\graph.py", line 149, in policy_retrieval_node
+    return run_policy_retrieval(state["applicant"])
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\agents\risk_agent.py", line 66, in run_policy_retrieval
+    chunks = retrieve_policy_context(query, k=4)
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\rag\retriever.py", line 40, in retrieve_policy_context
+    store = _load_vector_store()
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\rag\retriever.py", line 27, in _load_vector_store
+    embeddings = get_embeddings()
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\rag\ingest.py", line 35, in get_embeddings
+    return OpenAIEmbeddings()
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\pydantic\main.py", line 263, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 437, in validate_environment
+    self.client = openai.OpenAI(**client_params, **sync_specific).embeddings  # type: ignore[arg-type]
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shrut\AppData\Local\Python\pythoncore-3.14-64\Lib\functools.py", line 1126, in __get__
+    val = self.func(instance)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\_client.py", line 373, in embeddings
+    from .resources.embeddings import Embeddings
+  File "<frozen importlib._bootstrap>", line 1371, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1348, in _find_and_load_unlocked
+KeyError: 'openai.resources'
+2026-10-10 13:58:34 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}); using rule-based output.
+2026-10-10 13:58:37 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}); using rule-based output.
+2026-10-10 14:04:01 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}); using rule-based output.
+2026-10-10 14:05:03 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}); using rule-based output.
+2026-10-10 14:05:11 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}); using rule-based output.
+2026-10-10 14:05:39 | ERROR   | ai_loan_assistant.workflow | Node policy_retrieval failed
+Traceback (most recent call last):
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\workflow\graph.py", line 70, in wrapper
+    result = fn(state)
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\workflow\graph.py", line 149, in policy_retrieval_node
+    return run_policy_retrieval(state["applicant"])
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\agents\risk_agent.py", line 66, in run_policy_retrieval
+    chunks = retrieve_policy_context(query, k=4)
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\rag\retriever.py", line 41, in retrieve_policy_context
+    docs = store.similarity_search(query, k=k)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_community\vectorstores\faiss.py", line 643, in similarity_search
+    docs_and_scores = self.similarity_search_with_score(
+        query, k, filter=filter, fetch_k=fetch_k, **kwargs
+    )
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_community\vectorstores\faiss.py", line 515, in similarity_search_with_score
+    embedding = self._embed_query(query)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_community\vectorstores\faiss.py", line 266, in _embed_query
+    return self.embedding_function.embed_query(text)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 807, in embed_query
+    return self.embed_documents([text], **kwargs)[0]
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 757, in embed_documents
+    return self._get_len_safe_embeddings(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        texts, engine=engine, chunk_size=chunk_size, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 624, in _get_len_safe_embeddings
+    response = self.client.create(input=batch_tokens, **client_kwargs)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\resources\embeddings.py", line 113, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/embeddings",
+        ^^^^^^^^^^^^^^
+    ...<9 lines>...
+        cast_to=CreateEmbeddingResponse,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\_base_client.py", line 1368, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\_base_client.py", line 1141, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': "'input' : input must be a string or an array of strings", 'type': 'invalid_request_error'}}
+2026-10-10 14:05:40 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}); using rule-based output.
+2026-10-10 14:05:43 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}); using rule-based output.
+2026-10-10 14:05:46 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}); using rule-based output.
+2026-10-10 14:11:56 | WARNING | ai_loan_assistant.chat | LLM unavailable (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}) — rule-based fallback for this step
+2026-10-10 14:11:56 | ERROR   | ai_loan_assistant.workflow | Node policy_retrieval failed
+Traceback (most recent call last):
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\workflow\graph.py", line 70, in wrapper
+    result = fn(state)
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\workflow\graph.py", line 149, in policy_retrieval_node
+    return run_policy_retrieval(state["applicant"])
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\agents\risk_agent.py", line 66, in run_policy_retrieval
+    chunks = retrieve_policy_context(query, k=4)
+  File "C:\Users\shrut\OneDrive\Desktop\ai-loan-eligibility-assistant (2)\ai-loan-eligibility-assistant\rag\retriever.py", line 41, in retrieve_policy_context
+    docs = store.similarity_search(query, k=k)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_community\vectorstores\faiss.py", line 643, in similarity_search
+    docs_and_scores = self.similarity_search_with_score(
+        query, k, filter=filter, fetch_k=fetch_k, **kwargs
+    )
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_community\vectorstores\faiss.py", line 515, in similarity_search_with_score
+    embedding = self._embed_query(query)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_community\vectorstores\faiss.py", line 266, in _embed_query
+    return self.embedding_function.embed_query(text)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 807, in embed_query
+    return self.embed_documents([text], **kwargs)[0]
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 757, in embed_documents
+    return self._get_len_safe_embeddings(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        texts, engine=engine, chunk_size=chunk_size, **kwargs
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\langchain_openai\embeddings\base.py", line 624, in _get_len_safe_embeddings
+    response = self.client.create(input=batch_tokens, **client_kwargs)
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\resources\embeddings.py", line 113, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/embeddings",
+        ^^^^^^^^^^^^^^
+    ...<9 lines>...
+        cast_to=CreateEmbeddingResponse,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\_base_client.py", line 1368, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shrut\AppData\Roaming\Python\Python314\site-packages\openai\_base_client.py", line 1141, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': "'input' : input must be a string or an array of strings", 'type': 'invalid_request_error'}}
+2026-10-10 14:11:59 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}); using rule-based output.
+2026-10-10 14:12:03 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}); using rule-based output.
+2026-10-10 14:12:06 | ERROR   | ai_loan_assistant.llm | LLM call failed after retries (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}); using rule-based output.
+2026-10-10 14:12:09 | WARNING | ai_loan_assistant.chat | LLM unavailable (Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}) — rule-based fallback for this step
+2026-10-10 14:12:37 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 14:12:37 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.
+2026-10-10 14:12:37 | INFO    | ai_loan_assistant.llm | LLM MOCK mode active (no OPENAI_API_KEY) - using rule-based output.

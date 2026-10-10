@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1031",
+  "name": "Neha Das",
+  "age": 38,
+  "city": "Bengaluru",
+  "employment_type": "Salaried",
+  "years_at_current_job": 19.7,
+  "monthly_income": 86888,
+  "existing_monthly_emi": 31536.29,
+  "existing_loans_count": 1,
+  "credit_score": 635,
+  "bank_default_history": false,
+  "requested_loan_amount": 300000,
+  "loan_purpose": "Personal / Medical",
+  "tenure_years": 3,
+  "collateral_value": 364437.44,
+  "estimated_dti_ratio": 0.474
+}

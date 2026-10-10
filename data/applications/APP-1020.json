@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1020",
+  "name": "Amit Patel",
+  "age": 38,
+  "city": "Nashik",
+  "employment_type": "Salaried",
+  "years_at_current_job": 18.7,
+  "monthly_income": 102707,
+  "existing_monthly_emi": 7290.77,
+  "existing_loans_count": 2,
+  "credit_score": 714,
+  "bank_default_history": false,
+  "requested_loan_amount": 300000,
+  "loan_purpose": "Home Purchase",
+  "tenure_years": 20,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.099
+}

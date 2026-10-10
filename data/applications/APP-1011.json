@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1011",
+  "name": "Karan Iyer",
+  "age": 57,
+  "city": "Mumbai",
+  "employment_type": "Self-Employed",
+  "years_at_current_job": 2.9,
+  "monthly_income": 214895,
+  "existing_monthly_emi": 30143.82,
+  "existing_loans_count": 3,
+  "credit_score": 751,
+  "bank_default_history": false,
+  "requested_loan_amount": 7500000,
+  "loan_purpose": "Business Expansion",
+  "tenure_years": 15,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.515
+}

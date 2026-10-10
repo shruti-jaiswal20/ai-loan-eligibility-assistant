@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1012",
+  "name": "Arjun Iyer",
+  "age": 37,
+  "city": "Nashik",
+  "employment_type": "Salaried",
+  "years_at_current_job": 17.3,
+  "monthly_income": 46610,
+  "existing_monthly_emi": 14846.61,
+  "existing_loans_count": 0,
+  "credit_score": 590,
+  "bank_default_history": false,
+  "requested_loan_amount": 1200000,
+  "loan_purpose": "Personal / Medical",
+  "tenure_years": 3,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 1.149
+}

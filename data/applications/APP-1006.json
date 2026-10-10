@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1006",
+  "name": "Meera Singh",
+  "age": 52,
+  "city": "Mumbai",
+  "employment_type": "Self-Employed",
+  "years_at_current_job": 7.6,
+  "monthly_income": 97436,
+  "existing_monthly_emi": 6122.26,
+  "existing_loans_count": 3,
+  "credit_score": 694,
+  "bank_default_history": false,
+  "requested_loan_amount": 5000000,
+  "loan_purpose": "Home Purchase",
+  "tenure_years": 15,
+  "collateral_value": 3553326.98,
+  "estimated_dti_ratio": 0.614
+}

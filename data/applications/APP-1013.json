@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1013",
+  "name": "Meera Iyer",
+  "age": 57,
+  "city": "Nashik",
+  "employment_type": "Self-Employed",
+  "years_at_current_job": 4.2,
+  "monthly_income": 217622,
+  "existing_monthly_emi": 91614.82,
+  "existing_loans_count": 3,
+  "credit_score": 802,
+  "bank_default_history": false,
+  "requested_loan_amount": 1200000,
+  "loan_purpose": "Education",
+  "tenure_years": 10,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.494
+}

@@ -1,0 +1,31 @@
+name: Tests
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Generate synthetic data and RAG index
+        run: |
+          python data_generation/generate_synthetic_data.py
+          python -m rag.ingest
+
+      # Everything runs offline (mock LLM, local embeddings, moto for S3, a local fake OpenAI
+      # server for the tool-calling tests) — no secrets or network needed.
+      - name: Run test suite (backend, S3, assistant, Streamlit UI)
+        run: pytest tests/ -v

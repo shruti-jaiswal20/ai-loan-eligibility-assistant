@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1024",
+  "name": "Sneha Verma",
+  "age": 29,
+  "city": "Pune",
+  "employment_type": "Salaried",
+  "years_at_current_job": 19.5,
+  "monthly_income": 232502,
+  "existing_monthly_emi": 58578.32,
+  "existing_loans_count": 1,
+  "credit_score": 768,
+  "bank_default_history": false,
+  "requested_loan_amount": 800000,
+  "loan_purpose": "Personal / Medical",
+  "tenure_years": 5,
+  "collateral_value": 1044106.37,
+  "estimated_dti_ratio": 0.325
+}

@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1000",
+  "name": "Rahul Patel",
+  "age": 24,
+  "city": "Delhi",
+  "employment_type": "Salaried",
+  "years_at_current_job": 1.1,
+  "monthly_income": 92196,
+  "existing_monthly_emi": 9260.61,
+  "existing_loans_count": 3,
+  "credit_score": 612,
+  "bank_default_history": false,
+  "requested_loan_amount": 500000,
+  "loan_purpose": "Business Expansion",
+  "tenure_years": 15,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.159
+}

@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1034",
+  "name": "Sanjay Iyer",
+  "age": 40,
+  "city": "Pune",
+  "employment_type": "Business Owner",
+  "years_at_current_job": 5.1,
+  "monthly_income": 155034,
+  "existing_monthly_emi": 43725.29,
+  "existing_loans_count": 2,
+  "credit_score": 700,
+  "bank_default_history": false,
+  "requested_loan_amount": 7500000,
+  "loan_purpose": "Home Renovation",
+  "tenure_years": 3,
+  "collateral_value": 9858161.0,
+  "estimated_dti_ratio": 1.843
+}

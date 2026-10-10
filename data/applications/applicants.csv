@@ -1,0 +1,41 @@
+applicant_id,name,age,city,employment_type,years_at_current_job,monthly_income,existing_monthly_emi,existing_loans_count,credit_score,bank_default_history,requested_loan_amount,loan_purpose,tenure_years,collateral_value,estimated_dti_ratio
+APP-1000,Rahul Patel,24,Delhi,Salaried,1.1,92196,9260.61,3,612,False,500000,Business Expansion,15,0.0,0.159
+APP-1001,Aarav Menon,35,Mumbai,Business Owner,7.1,137974,13686.78,3,702,False,300000,Home Purchase,5,0.0,0.145
+APP-1002,Karan Patel,45,Chennai,Salaried,19.5,186263,22171.7,0,582,True,7500000,Vehicle Purchase,15,7812243.79,0.552
+APP-1003,Isha Iyer,27,Nashik,Salaried,7.9,201346,20648.88,0,708,False,500000,Vehicle Purchase,5,633644.17,0.155
+APP-1004,Sneha Verma,40,Hyderabad,Salaried,5.8,187680,53627.73,3,685,False,800000,Vehicle Purchase,10,920423.65,0.342
+APP-1005,Neha Das,26,Pune,Self-Employed,4.6,243430,3516.37,0,721,False,5000000,Personal / Medical,7,6505470.51,0.355
+APP-1006,Meera Singh,52,Mumbai,Self-Employed,7.6,97436,6122.26,3,694,False,5000000,Home Purchase,15,3553326.98,0.614
+APP-1007,Neha Patel,32,Hyderabad,Self-Employed,10.8,235638,72156.25,3,592,False,5000000,Personal / Medical,10,6443118.81,0.587
+APP-1008,Priya Verma,57,Delhi,Salaried,9.3,229483,66190.43,1,617,False,2000000,Home Renovation,10,2601364.7,0.404
+APP-1009,Arjun Patel,42,Chennai,Business Owner,12.2,187637,16795.39,0,751,False,800000,Vehicle Purchase,15,551595.34,0.135
+APP-1010,Sneha Sharma,38,Delhi,Business Owner,3.0,48645,1874.98,1,808,False,500000,Business Expansion,15,519921.44,0.149
+APP-1011,Karan Iyer,57,Mumbai,Self-Employed,2.9,214895,30143.82,3,751,False,7500000,Business Expansion,15,0.0,0.515
+APP-1012,Arjun Iyer,37,Nashik,Salaried,17.3,46610,14846.61,0,590,False,1200000,Personal / Medical,3,0.0,1.149
+APP-1013,Meera Iyer,57,Nashik,Self-Employed,4.2,217622,91614.82,3,802,False,1200000,Education,10,0.0,0.494
+APP-1014,Karan Kapoor,26,Bengaluru,Salaried,4.2,43889,7951.79,1,733,False,500000,Home Renovation,5,468752.66,0.423
+APP-1015,Neha Patel,51,Pune,Business Owner,8.4,53666,1221.69,1,567,False,500000,Education,5,645860.16,0.221
+APP-1016,Aarav Singh,39,Mumbai,Salaried,4.7,102776,19563.76,2,809,True,800000,Personal / Medical,5,0.0,0.356
+APP-1017,Ananya Sharma,26,Hyderabad,Business Owner,17.1,152987,34618.31,0,640,False,300000,Home Renovation,15,0.0,0.247
+APP-1018,Karan Patel,38,Pune,Business Owner,18.7,183849,3287.91,2,601,False,5000000,Vehicle Purchase,20,0.0,0.28
+APP-1019,Karan Reddy,42,Pune,Salaried,1.9,110883,46355.55,0,597,False,300000,Vehicle Purchase,10,0.0,0.454
+APP-1020,Amit Patel,38,Nashik,Salaried,18.7,102707,7290.77,2,714,False,300000,Home Purchase,20,0.0,0.099
+APP-1021,Amit Patel,58,Mumbai,Self-Employed,10.4,99394,12602.2,2,667,False,3500000,Personal / Medical,5,0.0,0.875
+APP-1022,Karan Chatterjee,40,Hyderabad,Salaried,11.3,28929,4342.26,3,626,False,2000000,Home Renovation,5,1215471.52,1.619
+APP-1023,Arjun Sharma,46,Pune,Business Owner,18.0,172841,11518.51,2,625,False,300000,Personal / Medical,7,386568.62,0.095
+APP-1024,Sneha Verma,29,Pune,Salaried,19.5,232502,58578.32,1,768,False,800000,Personal / Medical,5,1044106.37,0.325
+APP-1025,Amit Nair,49,Chennai,Self-Employed,4.8,97941,7016.4,3,615,False,5000000,Home Renovation,3,4841212.94,1.719
+APP-1026,Sneha Sharma,35,Mumbai,Salaried,13.8,114051,14298.73,3,595,False,2000000,Vehicle Purchase,7,1729839.79,0.416
+APP-1027,Rohan Joshi,39,Mumbai,Salaried,8.0,56417,15145.54,0,736,False,3500000,Business Expansion,10,2813223.02,1.088
+APP-1028,Amit Das,57,Nashik,Self-Employed,14.5,123478,23965.08,0,729,False,3500000,Education,20,2965997.05,0.468
+APP-1029,Divya Gupta,58,Bengaluru,Self-Employed,8.4,78289,14812.35,2,754,False,800000,Business Expansion,15,674479.97,0.299
+APP-1030,Isha Verma,43,Nashik,Salaried,13.3,143811,28614.35,1,669,True,7500000,Home Purchase,20,0.0,0.702
+APP-1031,Neha Das,38,Bengaluru,Salaried,19.7,86888,31536.29,1,635,False,300000,Personal / Medical,3,364437.44,0.474
+APP-1032,Isha Iyer,47,Delhi,Salaried,3.9,132766,14576.78,1,562,False,500000,Home Renovation,10,507183.1,0.16
+APP-1033,Amit Chatterjee,30,Bengaluru,Salaried,16.7,62954,22703.57,3,722,False,7500000,Vehicle Purchase,15,9883248.62,1.641
+APP-1034,Sanjay Iyer,40,Pune,Business Owner,5.1,155034,43725.29,2,700,False,7500000,Home Renovation,3,9858161.0,1.843
+APP-1035,Sneha Singh,32,Hyderabad,Self-Employed,4.5,44837,8370.64,0,729,True,7500000,Home Purchase,10,9929030.87,2.397
+APP-1036,Neha Das,47,Mumbai,Salaried,10.0,29545,12533.99,1,712,False,5000000,Education,10,0.0,2.661
+APP-1037,Ananya Verma,48,Mumbai,Self-Employed,2.1,248333,52230.78,0,625,False,300000,Vehicle Purchase,10,388044.33,0.226
+APP-1038,Karan Nair,36,Nashik,Salaried,16.8,113680,17265.18,2,754,False,2000000,Home Renovation,10,2398438.82,0.384
+APP-1039,Rahul Patel,25,Bengaluru,Salaried,9.7,92823,8327.37,1,570,False,800000,Personal / Medical,5,0.0,0.273

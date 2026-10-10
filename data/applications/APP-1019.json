@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1019",
+  "name": "Karan Reddy",
+  "age": 42,
+  "city": "Pune",
+  "employment_type": "Salaried",
+  "years_at_current_job": 1.9,
+  "monthly_income": 110883,
+  "existing_monthly_emi": 46355.55,
+  "existing_loans_count": 0,
+  "credit_score": 597,
+  "bank_default_history": false,
+  "requested_loan_amount": 300000,
+  "loan_purpose": "Vehicle Purchase",
+  "tenure_years": 10,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.454
+}

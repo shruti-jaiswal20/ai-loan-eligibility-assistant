@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1018",
+  "name": "Karan Patel",
+  "age": 38,
+  "city": "Pune",
+  "employment_type": "Business Owner",
+  "years_at_current_job": 18.7,
+  "monthly_income": 183849,
+  "existing_monthly_emi": 3287.91,
+  "existing_loans_count": 2,
+  "credit_score": 601,
+  "bank_default_history": false,
+  "requested_loan_amount": 5000000,
+  "loan_purpose": "Vehicle Purchase",
+  "tenure_years": 20,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.28
+}

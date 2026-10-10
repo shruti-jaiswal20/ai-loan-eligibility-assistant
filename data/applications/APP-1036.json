@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1036",
+  "name": "Neha Das",
+  "age": 47,
+  "city": "Mumbai",
+  "employment_type": "Salaried",
+  "years_at_current_job": 10.0,
+  "monthly_income": 29545,
+  "existing_monthly_emi": 12533.99,
+  "existing_loans_count": 1,
+  "credit_score": 712,
+  "bank_default_history": false,
+  "requested_loan_amount": 5000000,
+  "loan_purpose": "Education",
+  "tenure_years": 10,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 2.661
+}

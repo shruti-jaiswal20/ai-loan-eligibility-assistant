@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1027",
+  "name": "Rohan Joshi",
+  "age": 39,
+  "city": "Mumbai",
+  "employment_type": "Salaried",
+  "years_at_current_job": 8.0,
+  "monthly_income": 56417,
+  "existing_monthly_emi": 15145.54,
+  "existing_loans_count": 0,
+  "credit_score": 736,
+  "bank_default_history": false,
+  "requested_loan_amount": 3500000,
+  "loan_purpose": "Business Expansion",
+  "tenure_years": 10,
+  "collateral_value": 2813223.02,
+  "estimated_dti_ratio": 1.088
+}

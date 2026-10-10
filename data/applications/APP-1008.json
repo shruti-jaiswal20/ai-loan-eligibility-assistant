@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1008",
+  "name": "Priya Verma",
+  "age": 57,
+  "city": "Delhi",
+  "employment_type": "Salaried",
+  "years_at_current_job": 9.3,
+  "monthly_income": 229483,
+  "existing_monthly_emi": 66190.43,
+  "existing_loans_count": 1,
+  "credit_score": 617,
+  "bank_default_history": false,
+  "requested_loan_amount": 2000000,
+  "loan_purpose": "Home Renovation",
+  "tenure_years": 10,
+  "collateral_value": 2601364.7,
+  "estimated_dti_ratio": 0.404
+}

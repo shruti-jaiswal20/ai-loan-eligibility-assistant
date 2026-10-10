@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1028",
+  "name": "Amit Das",
+  "age": 57,
+  "city": "Nashik",
+  "employment_type": "Self-Employed",
+  "years_at_current_job": 14.5,
+  "monthly_income": 123478,
+  "existing_monthly_emi": 23965.08,
+  "existing_loans_count": 0,
+  "credit_score": 729,
+  "bank_default_history": false,
+  "requested_loan_amount": 3500000,
+  "loan_purpose": "Education",
+  "tenure_years": 20,
+  "collateral_value": 2965997.05,
+  "estimated_dti_ratio": 0.468
+}

@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1015",
+  "name": "Neha Patel",
+  "age": 51,
+  "city": "Pune",
+  "employment_type": "Business Owner",
+  "years_at_current_job": 8.4,
+  "monthly_income": 53666,
+  "existing_monthly_emi": 1221.69,
+  "existing_loans_count": 1,
+  "credit_score": 567,
+  "bank_default_history": false,
+  "requested_loan_amount": 500000,
+  "loan_purpose": "Education",
+  "tenure_years": 5,
+  "collateral_value": 645860.16,
+  "estimated_dti_ratio": 0.221
+}

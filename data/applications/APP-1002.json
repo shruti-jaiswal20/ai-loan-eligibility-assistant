@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1002",
+  "name": "Karan Patel",
+  "age": 45,
+  "city": "Chennai",
+  "employment_type": "Salaried",
+  "years_at_current_job": 19.5,
+  "monthly_income": 186263,
+  "existing_monthly_emi": 22171.7,
+  "existing_loans_count": 0,
+  "credit_score": 582,
+  "bank_default_history": true,
+  "requested_loan_amount": 7500000,
+  "loan_purpose": "Vehicle Purchase",
+  "tenure_years": 15,
+  "collateral_value": 7812243.79,
+  "estimated_dti_ratio": 0.552
+}

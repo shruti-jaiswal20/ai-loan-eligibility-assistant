@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1030",
+  "name": "Isha Verma",
+  "age": 43,
+  "city": "Nashik",
+  "employment_type": "Salaried",
+  "years_at_current_job": 13.3,
+  "monthly_income": 143811,
+  "existing_monthly_emi": 28614.35,
+  "existing_loans_count": 1,
+  "credit_score": 669,
+  "bank_default_history": true,
+  "requested_loan_amount": 7500000,
+  "loan_purpose": "Home Purchase",
+  "tenure_years": 20,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.702
+}

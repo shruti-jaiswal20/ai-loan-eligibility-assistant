@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1005",
+  "name": "Neha Das",
+  "age": 26,
+  "city": "Pune",
+  "employment_type": "Self-Employed",
+  "years_at_current_job": 4.6,
+  "monthly_income": 243430,
+  "existing_monthly_emi": 3516.37,
+  "existing_loans_count": 0,
+  "credit_score": 721,
+  "bank_default_history": false,
+  "requested_loan_amount": 5000000,
+  "loan_purpose": "Personal / Medical",
+  "tenure_years": 7,
+  "collateral_value": 6505470.51,
+  "estimated_dti_ratio": 0.355
+}

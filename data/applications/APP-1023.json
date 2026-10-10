@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1023",
+  "name": "Arjun Sharma",
+  "age": 46,
+  "city": "Pune",
+  "employment_type": "Business Owner",
+  "years_at_current_job": 18.0,
+  "monthly_income": 172841,
+  "existing_monthly_emi": 11518.51,
+  "existing_loans_count": 2,
+  "credit_score": 625,
+  "bank_default_history": false,
+  "requested_loan_amount": 300000,
+  "loan_purpose": "Personal / Medical",
+  "tenure_years": 7,
+  "collateral_value": 386568.62,
+  "estimated_dti_ratio": 0.095
+}

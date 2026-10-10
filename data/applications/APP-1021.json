@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1021",
+  "name": "Amit Patel",
+  "age": 58,
+  "city": "Mumbai",
+  "employment_type": "Self-Employed",
+  "years_at_current_job": 10.4,
+  "monthly_income": 99394,
+  "existing_monthly_emi": 12602.2,
+  "existing_loans_count": 2,
+  "credit_score": 667,
+  "bank_default_history": false,
+  "requested_loan_amount": 3500000,
+  "loan_purpose": "Personal / Medical",
+  "tenure_years": 5,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.875
+}

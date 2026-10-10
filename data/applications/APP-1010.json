@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1010",
+  "name": "Sneha Sharma",
+  "age": 38,
+  "city": "Delhi",
+  "employment_type": "Business Owner",
+  "years_at_current_job": 3.0,
+  "monthly_income": 48645,
+  "existing_monthly_emi": 1874.98,
+  "existing_loans_count": 1,
+  "credit_score": 808,
+  "bank_default_history": false,
+  "requested_loan_amount": 500000,
+  "loan_purpose": "Business Expansion",
+  "tenure_years": 15,
+  "collateral_value": 519921.44,
+  "estimated_dti_ratio": 0.149
+}

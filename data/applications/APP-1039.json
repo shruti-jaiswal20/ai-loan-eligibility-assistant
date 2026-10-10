@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1039",
+  "name": "Rahul Patel",
+  "age": 25,
+  "city": "Bengaluru",
+  "employment_type": "Salaried",
+  "years_at_current_job": 9.7,
+  "monthly_income": 92823,
+  "existing_monthly_emi": 8327.37,
+  "existing_loans_count": 1,
+  "credit_score": 570,
+  "bank_default_history": false,
+  "requested_loan_amount": 800000,
+  "loan_purpose": "Personal / Medical",
+  "tenure_years": 5,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.273
+}

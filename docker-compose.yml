@@ -1,0 +1,42 @@
+version: "3.9"
+
+# Local full-stack demo:
+#   docker compose up --build
+# Streamlit app -> http://localhost:8501
+#
+# The optional `localstack` service emulates AWS S3 locally so the S3
+# integration (utils/s3_storage.py) can be exercised end-to-end without a
+# real AWS account — useful for local development and for grading/demo
+# purposes when real AWS credentials aren't available. Comment it out (and
+# leave S3_* unset in .env) to run purely in local-disk mode instead.
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: deployment/Dockerfile
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      # Point the app at LocalStack instead of real AWS when both are set.
+      AWS_ENDPOINT_URL: ${AWS_ENDPOINT_URL:-http://localstack:4566}
+    depends_on:
+      - localstack
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+
+  localstack:
+    image: localstack/localstack:3
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: s3
+      DEFAULT_REGION: ${AWS_REGION:-ap-south-1}
+    volumes:
+      - localstack-data:/var/lib/localstack
+
+volumes:
+  localstack-data:

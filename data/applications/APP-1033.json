@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1033",
+  "name": "Amit Chatterjee",
+  "age": 30,
+  "city": "Bengaluru",
+  "employment_type": "Salaried",
+  "years_at_current_job": 16.7,
+  "monthly_income": 62954,
+  "existing_monthly_emi": 22703.57,
+  "existing_loans_count": 3,
+  "credit_score": 722,
+  "bank_default_history": false,
+  "requested_loan_amount": 7500000,
+  "loan_purpose": "Vehicle Purchase",
+  "tenure_years": 15,
+  "collateral_value": 9883248.62,
+  "estimated_dti_ratio": 1.641
+}

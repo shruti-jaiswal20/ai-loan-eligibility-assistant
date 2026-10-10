@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1001",
+  "name": "Aarav Menon",
+  "age": 35,
+  "city": "Mumbai",
+  "employment_type": "Business Owner",
+  "years_at_current_job": 7.1,
+  "monthly_income": 137974,
+  "existing_monthly_emi": 13686.78,
+  "existing_loans_count": 3,
+  "credit_score": 702,
+  "bank_default_history": false,
+  "requested_loan_amount": 300000,
+  "loan_purpose": "Home Purchase",
+  "tenure_years": 5,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.145
+}

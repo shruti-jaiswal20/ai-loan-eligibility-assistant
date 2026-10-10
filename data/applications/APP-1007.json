@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1007",
+  "name": "Neha Patel",
+  "age": 32,
+  "city": "Hyderabad",
+  "employment_type": "Self-Employed",
+  "years_at_current_job": 10.8,
+  "monthly_income": 235638,
+  "existing_monthly_emi": 72156.25,
+  "existing_loans_count": 3,
+  "credit_score": 592,
+  "bank_default_history": false,
+  "requested_loan_amount": 5000000,
+  "loan_purpose": "Personal / Medical",
+  "tenure_years": 10,
+  "collateral_value": 6443118.81,
+  "estimated_dti_ratio": 0.587
+}

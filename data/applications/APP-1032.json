@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1032",
+  "name": "Isha Iyer",
+  "age": 47,
+  "city": "Delhi",
+  "employment_type": "Salaried",
+  "years_at_current_job": 3.9,
+  "monthly_income": 132766,
+  "existing_monthly_emi": 14576.78,
+  "existing_loans_count": 1,
+  "credit_score": 562,
+  "bank_default_history": false,
+  "requested_loan_amount": 500000,
+  "loan_purpose": "Home Renovation",
+  "tenure_years": 10,
+  "collateral_value": 507183.1,
+  "estimated_dti_ratio": 0.16
+}

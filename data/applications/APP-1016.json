@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1016",
+  "name": "Aarav Singh",
+  "age": 39,
+  "city": "Mumbai",
+  "employment_type": "Salaried",
+  "years_at_current_job": 4.7,
+  "monthly_income": 102776,
+  "existing_monthly_emi": 19563.76,
+  "existing_loans_count": 2,
+  "credit_score": 809,
+  "bank_default_history": true,
+  "requested_loan_amount": 800000,
+  "loan_purpose": "Personal / Medical",
+  "tenure_years": 5,
+  "collateral_value": 0,
+  "estimated_dti_ratio": 0.356
+}

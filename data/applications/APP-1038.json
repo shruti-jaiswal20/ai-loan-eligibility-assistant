@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1038",
+  "name": "Karan Nair",
+  "age": 36,
+  "city": "Nashik",
+  "employment_type": "Salaried",
+  "years_at_current_job": 16.8,
+  "monthly_income": 113680,
+  "existing_monthly_emi": 17265.18,
+  "existing_loans_count": 2,
+  "credit_score": 754,
+  "bank_default_history": false,
+  "requested_loan_amount": 2000000,
+  "loan_purpose": "Home Renovation",
+  "tenure_years": 10,
+  "collateral_value": 2398438.82,
+  "estimated_dti_ratio": 0.384
+}

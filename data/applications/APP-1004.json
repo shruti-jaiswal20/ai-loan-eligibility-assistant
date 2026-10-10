@@ -1,0 +1,18 @@
+{
+  "applicant_id": "APP-1004",
+  "name": "Sneha Verma",
+  "age": 40,
+  "city": "Hyderabad",
+  "employment_type": "Salaried",
+  "years_at_current_job": 5.8,
+  "monthly_income": 187680,
+  "existing_monthly_emi": 53627.73,
+  "existing_loans_count": 3,
+  "credit_score": 685,
+  "bank_default_history": false,
+  "requested_loan_amount": 800000,
+  "loan_purpose": "Vehicle Purchase",
+  "tenure_years": 10,
+  "collateral_value": 920423.65,
+  "estimated_dti_ratio": 0.342
+}
