@@ -3,5 +3,30 @@ venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# ---------- runtime-generated: DO NOT commit ----------
+
+# User-uploaded PDFs (runtime; in production these go to S3)
+data/uploads/
+
+# Audit log (append-only at runtime; machine-specific)
+data/audit_log/
+
+# LangGraph SQLite checkpointer (runtime state)
+data/checkpoints.db
+
+# FAISS vector index (rebuilt by `python -m rag.ingest`)
 rag/vector_store/
+
+# ---------- intentionally tracked ----------
+# data/policy_docs/       <- RAG knowledge base, part of the app
+# data/applications/      <- synthetic demo data, needed for demos
+# data/audit_log/.gitkeep <- placeholder so the empty dir exists in Git
+
+# ---------- OS / IDE artifacts ----------
+.DS_Store
+Thumbs.db
 .streamlit/secrets.toml
+*.egg-info/
+dist/
+build/
