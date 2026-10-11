@@ -95,9 +95,10 @@ def render_sidebar():
         st.markdown(
             """
             <div class="sidebar-brand">
-                <div class="logo">🏦</div>
+                <div class="logo">LA</div>
                 <div>
                     <div class="name">AI LOAN<br/>ASSESSMENT</div>
+                    <div class="sub">INTELLIGENT UNDERWRITING</div>
                 </div>
             </div>
             """,
@@ -118,6 +119,11 @@ def render_sidebar():
             st.text_input("Ask the assistant", key="quick_q", placeholder="e.g. What DTI needs manual review?")
             st.button("Ask", key="quick_ask_btn", on_click=_quick_ask, width="stretch")
 
+        st.toggle("🌙 Dark mode", key="dark_mode")
+        if os.getenv("APP_LOGIN_PASSWORD_SHA256", "").strip() and st.session_state.get("authenticated"):
+            if st.button("Sign out", key="sign_out", width="stretch"):
+                st.session_state.authenticated = False
+                st.rerun()
         st.markdown('<div class="sidebar-section-label">System Status</div>', unsafe_allow_html=True)
         llm_state = "Mock (offline)" if USE_MOCK else f"Live · {MODEL_NAME}"
         s3_state = "Connected" if _s3_configured() else "Local mode"
@@ -152,7 +158,8 @@ def _dashboard_greeting() -> str:
         greeting = "Good evening"
     else:
         greeting = "Good night"
-    return f"{greeting}, Analyst 👋"
+    reviewer = (st.session_state.get("reviewer_name") or "Analyst").strip()
+    return f"{greeting}, {reviewer} 👋"
 
 
 def page_dashboard():
@@ -164,7 +171,8 @@ def page_dashboard():
     if df.empty:
         st.warning("No synthetic data found. Run `python data_generation/generate_synthetic_data.py`.")
         return
-    scored = bulk_rule_based_status(df)
+    with st.spinner("Loading portfolio metrics…"):
+        scored = bulk_rule_based_status(df)
 
     total = len(scored)
     approved = (scored["recommendation"] == "APPROVE").sum()
@@ -193,6 +201,29 @@ def page_dashboard():
             fig.update_layout(margin=dict(t=10, b=10, l=10, r=10), height=260,
                                showlegend=True, legend=dict(orientation="h", y=-0.15))
             st.plotly_chart(fig, width="stretch")
+            st.download_button(
+                "⬇️ Export portfolio CSV",
+                data=scored.to_csv(index=False).encode("utf-8"),
+                file_name="loan_portfolio.csv",
+                mime="text/csv",
+                key="dashboard_csv_export",
+            )
+
+    # Trend from durable assessment history (only actual completed workflow runs).
+    history = st.session_state.get("assessment_history", {})
+    if history:
+        trend_rows = []
+        for app_id, record in history.items():
+            state = record.get("state", {})
+            ts = record.get("timestamp")
+            if ts and state.get("risk_level"):
+                trend_rows.append({"Date": pd.to_datetime(ts).date(),
+                                   "Risk": state.get("risk_level", "N/A"),
+                                   "Application": app_id})
+        if trend_rows:
+            trend = pd.DataFrame(trend_rows).groupby(["Date", "Risk"]).size().unstack(fill_value=0)
+            st.markdown("### Assessment trend")
+            st.line_chart(trend)
 
     with right:
         with st.container(border=True):
@@ -444,9 +475,66 @@ def _wizard_progress():
                     step_row("Document Intake Agent", "active")
                 bar.progress(10, text="Running the workflow...")
 
-                # The real workflow runs here; every row below is filled from its actual output.
+                # Rows and progress bar update from real LangGraph node-completion events.
+                progress_values = {
+                    "document_extraction": (15, "extract"),
+                    "validate_input": (25, "validate"),
+                    "router": (35, "router"),
+                    "financial_analysis": (55, "financial"),
+                    "policy_retrieval": (55, "rag"),
+                    "risk_assessment": (75, "risk"),
+                    "recommendation": (90, "recommend"),
+                    "human_approval_gate": (100, "human"),
+                }
+                def on_workflow_step(node_name, update):
+                    if node_name not in progress_values:
+                        return
+                    pct, slot = progress_values[node_name]
+                    detail = ""
+                    label = {
+                        "document_extraction": "Document Intake Agent",
+                        "validate_input": "Input Validation (Pydantic)",
+                        "router": "Router",
+                        "financial_analysis": "Financial Analysis Agent",
+                        "policy_retrieval": "Policy / RAG Retrieval Agent",
+                        "risk_assessment": "Risk Agent (join)",
+                        "recommendation": "Recommendation Agent",
+                        "human_approval_gate": "Human Approval",
+                    }[node_name]
+                    if node_name == "document_extraction":
+                        status = update.get("document_status", "none")
+                        detail = "no document uploaded" if status == "none" else status
+                        row_state = "skipped" if status == "none" else ("done" if status == "ok" else "warn")
+                    elif node_name == "validate_input":
+                        valid = update.get("is_valid", False)
+                        detail = "All fields valid" if valid else "Failed validation"
+                        row_state = "done" if valid else "warn"
+                    elif node_name == "router":
+                        detail = update.get("route", "routed")
+                        row_state = "done"
+                    elif node_name == "financial_analysis":
+                        metrics = update.get("financial_metrics", {})
+                        detail = f"DTI {metrics.get('dti_ratio', 0):.0%}"
+                        row_state = "done"
+                    elif node_name == "policy_retrieval":
+                        detail = f"{len(update.get('policy_chunks', []))} clauses retrieved"
+                        row_state = "done"
+                    elif node_name == "risk_assessment":
+                        detail = f"Risk: {update.get('risk_level', 'classified')}"
+                        row_state = "done"
+                    elif node_name == "recommendation":
+                        detail = update.get("recommendation", "complete")
+                        row_state = "done"
+                    else:
+                        detail, row_state = "Paused for reviewer", "pending"
+                    with ph[slot].container():
+                        step_row(label, row_state, detail)
+                    bar.progress(pct, text=f"{label} completed")
                 try:
-                    state = run_until_human_review(applicant, document)
+                    state = run_until_human_review(
+                        applicant, document, st.session_state.get("policy_thresholds", {}),
+                        progress_callback=on_workflow_step,
+                    )
                 except Exception as e:
                     st.error(f"Assessment failed unexpectedly: {e}")
                     return
@@ -472,7 +560,6 @@ def _wizard_progress():
                         step_row("Document Intake Agent", "warn",
                                  "partly/not readable — manual check")
                 bar.progress(20, text="Validating required fields and value ranges...")
-                time.sleep(0.15)
 
                 if not state.get("is_valid", True):
                     with ph["validate"].container():
@@ -519,7 +606,6 @@ def _wizard_progress():
                                          route="expedited" if is_expedited else "standard")
                 st.graphviz_chart(dot, width="stretch")
 
-        time.sleep(0.3)
         st.session_state.progress_end_ts = time.time()
         st.session_state.wizard_step = "results"
         st.rerun()
@@ -675,6 +761,8 @@ def _wizard_review():
                     final_state = resume_after_human_decision(
                         applicant["applicant_id"], decision, reviewer or "Analyst", comment)
                 st.session_state.current_state = final_state
+                if decision == "APPROVED":
+                    st.balloons()
                 st.session_state.assessment_history[applicant["applicant_id"]] = {
                     "state": final_state, "timestamp": datetime.now(),
                 }
@@ -743,6 +831,26 @@ def _wizard_completed():
                     badge_html(val, tag_kind.get(val, "gray"))
 
         with st.container(border=True):
+            card_heading("📈", "Credit Score")
+            score = int(metrics.get("credit_score", 0))
+            gauge = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=score,
+                number={"font": {"size": 30}},
+                gauge={"axis": {"range": [300, 900]},
+                       "bar": {"color": "#2f6fed"},
+                       "steps": [
+                           {"range": [300, 650], "color": "#fee2e2"},
+                           {"range": [650, 700], "color": "#fef3c7"},
+                           {"range": [700, 900], "color": "#dcfce7"},
+                       ],
+                       "threshold": {"line": {"color": "#0f172a", "width": 3},
+                                     "thickness": 0.8, "value": 700}},
+            ))
+            gauge.update_layout(height=210, margin=dict(t=15, b=5, l=20, r=20))
+            st.plotly_chart(gauge, width="stretch", key="completed_credit_gauge")
+
+        with st.container(border=True):
             card_heading("🕸️", "AI Workflow Overview")
             dstatus = state.get("document_status", "none")
             if dstatus == "none":
@@ -803,8 +911,7 @@ def page_assistant():
     c1, c2 = st.columns([5, 1])
     with c1:
         if assistant_mode() == "llm":
-            st.caption("🟢 Language-model mode (tool-calling). I can assess, explain, look up policy and show "
-                       "stats — final decisions always stay with a human reviewer.")
+            st.caption("🟢 I can assess, explain, look up policy and show stats — final decisions always stay with a human reviewer.")
         else:
             st.caption("🟡 Rule-based mode (no OPENAI_API_KEY): I understand a fixed set of requests and answer "
                        "from templates — this is not generative text. Add an API key for open-ended chat.")
@@ -814,6 +921,7 @@ def page_assistant():
     history = get_history(sid)
     if not history:
         st.markdown("**Try one of these:**")
+        st.caption("⌨️ Keyboard tip: press `?` to view available Streamlit keyboard shortcuts.")
         cols = st.columns(len(CHAT_SUGGESTIONS))
         for col, q in zip(cols, CHAT_SUGGESTIONS):
             col.button(q, key=f"sugg_{q}", on_click=_ask, args=(q,), width="stretch")
@@ -884,13 +992,28 @@ def page_applications():
         filtered = filtered[filtered["recommendation"].apply(_status_label) == status_filter]
 
     st.caption(f"{len(filtered)} of {len(scored)} applications")
+    page_size = st.selectbox("Rows per page", [10, 20, 40, 80], index=1, key="applications_page_size")
+    page_count = max(1, (len(filtered) + page_size - 1) // page_size)
+    if int(st.session_state.get("applications_page_number", 1)) > page_count:
+        st.session_state["applications_page_number"] = 1
+    current_page = st.number_input("Page", min_value=1, max_value=page_count,
+                                   step=1, key="applications_page_number")
+    start_idx = (int(current_page) - 1) * page_size
+    page_df = filtered.iloc[start_idx:start_idx + page_size]
+    st.download_button(
+        "⬇️ Export filtered applications CSV",
+        data=filtered.to_csv(index=False).encode("utf-8"),
+        file_name="filtered_loan_applications.csv",
+        mime="text/csv",
+        key="applications_csv_export",
+    )
 
     with st.container(border=True):
         header = st.columns([1.2, 1.8, 1.5, 1.1, 1.5, 1.1])
         for h, label in zip(header, ["ID", "Customer", "Loan Amount", "Risk", "Status", ""]):
             h.markdown(f"**{label}**")
         st.markdown('<hr class="soft"/>', unsafe_allow_html=True)
-        for _, r in filtered.head(40).iterrows():
+        for _, r in page_df.iterrows():
             cols = st.columns([1.2, 1.8, 1.5, 1.1, 1.5, 1.1])
             cols[0].write(r["applicant_id"])
             cols[1].write(r["name"])
@@ -905,7 +1028,7 @@ def page_applications():
 # -------------------------------------------------------------- assessments --
 
 def page_assessments():
-    topbar("Assessments", "Assessment History", "Cases processed by the AI workflow this session.",
+    topbar("Assessments", "Assessment History", "Persisted cases processed by the AI workflow.",
            st.session_state.reviewer_name)
     history = st.session_state.assessment_history
     if not history:
@@ -937,7 +1060,7 @@ def page_assessments():
 
 def _completed_nodes(trace: list[str]) -> set[str]:
     """Diagram nodes that really ran OK, derived from the execution trace (not hard-coded)."""
-    ok = {t[5:] for t in trace if t.startswith("[OK] ")}
+    ok = {t[5:].split(" (", 1)[0] for t in trace if t.startswith("[OK] ")}
     mapping = {"document_extraction": "document", "validate_input": "validate", "router": "router",
                "financial_analysis": "financial", "policy_retrieval": "rag", "risk_assessment": "risk",
                "recommendation": "recommend", "human_approval_gate": "human"}
@@ -1054,14 +1177,77 @@ def page_settings():
         card_heading("🧠", "LLM Engine")
         st.write(f"**Mode:** {'Mock (rule-based, offline)' if USE_MOCK else 'Live API'}")
         st.write(f"**Model:** {MODEL_NAME}")
-        st.caption("Set OPENAI_API_KEY in your .env file to switch from mock to live generative responses.")
+       # st.caption("Set OPENAI_API_KEY in your .env file to switch from mock to live generative responses.")
 
     with st.container(border=True):
-        card_heading("📐", "Policy Thresholds (read-only; mirrored in code from data/policy_docs)")
-        st.write(f"- Expedited routing: loan ≤ {inr(EXPEDITED_LOAN_CEILING)} and credit score ≥ {EXPEDITED_CREDIT_FLOOR}")
-        st.write("- LOW risk: credit ≥ 700, DTI ≤ 35%, no default, tenure ≥ 1yr")
-        st.write("- MEDIUM risk: credit 650–699, or DTI above 35% up to 50%, or tenure under 1 yr")
-        st.write("- HIGH risk: credit < 650, DTI > 50%, or prior default")
+        card_heading("📐", "Policy Thresholds (session only)")
+        st.caption("Changes apply to assessments started after you save them in this browser session. "
+                   "They are not written back to bank policy documents.")
+        # Defensive initialization: Settings may be opened with a stale session
+        # created before policy thresholds were introduced.
+        threshold_defaults = {
+            "expedited_loan_ceiling": 800000,
+            "expedited_credit_floor": 720,
+            "high_dti": 0.50,
+            "low_dti": 0.35,
+            "high_credit_floor": 650,
+            "low_credit_floor": 700,
+            "minimum_job_tenure": 1.0,
+        }
+        saved_thresholds = st.session_state.get("policy_thresholds")
+        if not isinstance(saved_thresholds, dict):
+            saved_thresholds = {}
+        current = {**threshold_defaults, **saved_thresholds}
+        st.session_state["policy_thresholds"] = current
+        t1, t2 = st.columns(2)
+        with t1:
+            exp_loan = st.number_input("Expedited loan ceiling (INR)", min_value=50000,
+                                       max_value=20000000, step=50000,
+                                       value=int(current["expedited_loan_ceiling"]), key="edit_exp_loan")
+            exp_credit = st.slider("Expedited minimum credit score", 300, 900,
+                                   int(current["expedited_credit_floor"]), key="edit_exp_credit")
+            high_credit = st.slider("High-risk credit floor", 300, 750,
+                                    int(current["high_credit_floor"]), key="edit_high_credit")
+            low_credit = st.slider("Low-risk credit floor", 500, 850,
+                                   int(current["low_credit_floor"]), key="edit_low_credit")
+        with t2:
+            low_dti = st.slider("Low-risk maximum DTI", 0.10, 0.60,
+                                float(current["low_dti"]), step=0.01, key="edit_low_dti")
+            high_dti = st.slider("High-risk DTI threshold", 0.20, 0.90,
+                                 float(current["high_dti"]), step=0.01, key="edit_high_dti")
+            min_tenure = st.number_input("Minimum job tenure (years)", min_value=0.0,
+                                         max_value=20.0, step=0.5,
+                                         value=float(current["minimum_job_tenure"]), key="edit_min_tenure")
+        if st.button("💾 Apply thresholds to future assessments", key="save_policy_thresholds"):
+            if high_credit >= low_credit:
+                st.error("Low-risk credit floor must be higher than the high-risk credit floor.")
+            elif low_dti >= high_dti:
+                st.error("Low-risk DTI threshold must be lower than the high-risk DTI threshold.")
+            else:
+                st.session_state.policy_thresholds = {
+                    "expedited_loan_ceiling": int(exp_loan),
+                    "expedited_credit_floor": int(exp_credit),
+                    "high_dti": float(high_dti),
+                    "low_dti": float(low_dti),
+                    "high_credit_floor": int(high_credit),
+                    "low_credit_floor": int(low_credit),
+                    "minimum_job_tenure": float(min_tenure),
+                }
+                st.success("Thresholds saved for this session.")
+
+    with st.container(border=True):
+        card_heading("🎨", "Appearance")
+        st.caption("Use the sidebar toggle to switch between light and dark mode.")
+        st.write(f"**Current mode:** {'Dark' if st.session_state.get('dark_mode') else 'Light'}")
+
+    with st.container(border=True):
+        card_heading("ℹ️", "About this application")
+        st.write("**Application:** AI Loan Eligibility Assessment Assistant")
+        st.write("**Version:** 1.1.0")
+        st.write("**Build:** Docker / Streamlit")
+        st.write(f"**Python runtime:** {os.sys.version.split()[0]}")
+        st.write("**Checkpoint store:** SQLite")
+        st.caption("AI recommendations support human review and do not constitute a final lending decision.")
 
     with st.container(border=True):
         card_heading("☁️", "AWS S3 Integration")

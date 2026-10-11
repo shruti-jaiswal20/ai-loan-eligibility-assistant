@@ -15,6 +15,7 @@ from typing import TypedDict, Optional, List, Dict, Any, Annotated
 class LoanAssessmentState(TypedDict, total=False):
     # --- input ---
     applicant: Dict[str, Any]
+    policy_thresholds: Dict[str, Any]
     document: Optional[Dict[str, Any]]      # {"path", "filename", "storage_uri"} if a PDF was uploaded
 
     # --- document intake agent output ---

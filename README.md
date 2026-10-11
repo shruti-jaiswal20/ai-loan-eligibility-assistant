@@ -70,8 +70,7 @@ Try it:
 2. **AI Assistant** → *Assess APP-1005* → *why was it flagged? and its DTI?* → *Open human review*.
 3. Ask *approve APP-1005* to see the refusal.
 
-Tests: `pip install -r requirements-dev.txt && pytest tests/ -v` (offline; no keys needed).
-Graphviz is **not** required (diagrams render in the browser).
+Tests: `pip install -r requirements-dev.txt && pytest tests/ -v`
 
 ## Docker / AWS
 
@@ -117,8 +116,6 @@ tests/                      backend, documents, S3 (moto), assistant (fake OpenA
 * **`langchain-community`** (PyPDFLoader, FAISS wrapper) is being sunset upstream; a migration to
   standalone packages is future work.
 * All data is synthetic; no real customer or bank data is used.
-
-## RFP Section 7 mapping
 
 | Requirement | Where |
 |---|---|

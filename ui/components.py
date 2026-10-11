@@ -1,4 +1,6 @@
 """Small reusable rendering helpers used across every page."""
+import html
+import re
 import streamlit as st
 
 RISK_KIND = {"LOW": "green", "MEDIUM": "amber", "HIGH": "red"}
@@ -28,17 +30,22 @@ def badge_html(text: str, kind: str = "gray"):
 
 
 def topbar(breadcrumb: str, title: str, subtitle: str = "", reviewer_name: str = "Analyst"):
+    safe_name = html.escape(str(reviewer_name or "Analyst"))
+    initials = "".join(part[0] for part in re.findall(r"[^\\W_]+", str(reviewer_name or "Analyst"), flags=re.UNICODE)[:2]).upper() or "A"
+    safe_breadcrumb = html.escape(str(breadcrumb))
+    safe_title = html.escape(str(title))
+    safe_subtitle = html.escape(str(subtitle))
     st.markdown(
         f"""
         <div class="topbar">
             <div>
-                <div class="breadcrumb">{breadcrumb}</div>
-                <div class="page-title">{title}</div>
-                <div class="page-subtitle" style="{'display:none;' if not subtitle else ''}">{subtitle}</div>
+                <div class="breadcrumb">{safe_breadcrumb}</div>
+                <div class="page-title">{safe_title}</div>
+                <div class="page-subtitle" style="{'display:none;' if not subtitle else ''}">{safe_subtitle}</div>
             </div>
             <div class="topbar-user">
-                <div class="topbar-avatar">👤</div>
-                <div>{reviewer_name}<div style="font-weight:400;color:#94a3b8;font-size:0.72rem;">Analyst</div></div>
+                <div class="topbar-avatar">{initials}</div>
+                <div>{safe_name}<div style="font-weight:400;color:#94a3b8;font-size:0.72rem;">Loan Reviewer</div></div>
             </div>
         </div>
         """,
@@ -92,3 +99,49 @@ def factor_list(items: list[str], positive: bool):
         return
     html = "".join(f'<div class="factor-item {cls}">{i}</div>' for i in items)
     st.markdown(html, unsafe_allow_html=True)
+
+def render_footer():
+    st.markdown(
+        """
+        <style>
+        .app-footer {
+            margin-top: 3rem;
+            padding: 1rem 0 0.5rem;
+            border-top: 1px solid rgba(128, 128, 128, 0.3);
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        .app-footer .powered {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+        .app-footer .accent {
+            color: #F5A623;
+        }
+        .app-footer .disclaimer {
+            font-size: 0.72rem;
+            margin-top: 0.6rem;
+        }
+        </style>
+
+        <div class="app-footer">
+            <div class="powered">
+                <span class="accent">✦</span> Powered by AI
+            </div>
+            <div>AI Loan Eligibility Assistant · v1.0</div>
+            <div>Built for smarter loan assessments</div>
+            <div class="disclaimer">
+                AI-generated recommendations are decision-support outputs
+                and should be reviewed by an authorized person.
+            </div>
+            <div style="margin-top: 0.5rem;">
+                © 2026 AI Loan Eligibility Assistant
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
