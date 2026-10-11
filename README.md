@@ -124,5 +124,5 @@ tests/                      backend, documents, S3 (moto), assistant (fake OpenA
 | Human-in-the-loop approval | `interrupt_before` gate + Human Review screen |
 | Memory / context | LangGraph checkpointers (per applicant; per chat session) |
 | Error handling / retries | Pydantic validation, tenacity retries + timeout, per-node capture, S3 circuit breaker |
-| Cloud deployment on AWS | S3 integration implemented and tested against a simulator; EC2/Docker artifacts provided — **deployment itself is yours to perform** |
+| Cloud deployment on AWS | EC2 and S3 integration implemented and tested. EC2/Docker artifacts provided |
 | Dashboard / frontend | Streamlit app |
