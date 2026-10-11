@@ -1,8 +1,5 @@
 # AWS Deployment Guide — EC2 + S3
 
-Matches RFP Section 10 (AWS Deployment Expectations): application hosting
-on **EC2**, document storage on **S3**, Docker containerization optional.
-
 ## 1. Create the S3 bucket (document/file storage)
 
 ```bash
@@ -48,8 +45,6 @@ aws s3 cp data/applications/ s3://ai-loan-assistant-docs/applications/ --recursi
    }
    ```
 
-   Create the bucket yourself (Section 1) — the policy deliberately does not allow `s3:CreateBucket`.
-
 ## 3. Install dependencies on the instance
 
 ```bash
@@ -78,27 +73,6 @@ python -m rag.ingest
 # Run in background with nohup (simplest option) ...
 nohup streamlit run app.py --server.port=8501 --server.address=0.0.0.0 &
 
-# ...or as a systemd service (recommended, survives reboot):
-sudo tee /etc/systemd/system/loan-assistant.service <<'EOF'
-[Unit]
-Description=AI Loan Eligibility Assessment Assistant
-After=network.target
-
-[Service]
-User=ubuntu
-WorkingDirectory=/home/ubuntu/ai-loan-eligibility-assistant
-ExecStart=/home/ubuntu/ai-loan-eligibility-assistant/venv/bin/streamlit run app.py --server.port=8501 --server.address=0.0.0.0
-Restart=always
-EnvironmentFile=/home/ubuntu/ai-loan-eligibility-assistant/.env
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-sudo systemctl daemon-reload
-sudo systemctl enable --now loan-assistant
-```
-
 Visit `http://<EC2_PUBLIC_IP>:8501` to access the app.
 
 ### Verify the S3 integration
@@ -118,12 +92,3 @@ sudo docker build -t loan-assistant -f deployment/Dockerfile .
 sudo docker run -d -p 8501:8501 --env-file .env --name loan-assistant loan-assistant
 sudo docker ps   # STATUS should become (healthy) after ~40s
 ```
-
-## 6. Capture deployment proof for the capstone report
-
-For the mandatory "AWS deployment screenshots" deliverable, capture:
-- The EC2 instance details page (instance type, public IP, running state)
-- The security group inbound rules
-- The S3 bucket contents (policy_docs/ and applications/ prefixes)
-- The running Streamlit app in a browser at `http://<EC2_PUBLIC_IP>:8501`
-- `systemctl status loan-assistant` (or `docker ps`) showing the service is active

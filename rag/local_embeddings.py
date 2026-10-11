@@ -1,13 +1,6 @@
 """
 A LangChain-compatible Embeddings implementation backed by scikit-learn's
 TF-IDF vectorizer.
-
-Why: the recommended stack (RFP Section 8) suggests OpenAI/Gemini for
-embeddings. Those require outbound internet + paid API keys, which isn't
-guaranteed in every dev/demo environment. This class lets the whole RAG
-pipeline run fully offline out of the box; swapping in
-`langchain_openai.OpenAIEmbeddings()` for production is a one-line change
-(see rag/ingest.py::get_embeddings).
 """
 from __future__ import annotations
 

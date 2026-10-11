@@ -4,7 +4,9 @@ dark-sidebar / card-based dashboard look."""
 
 THEME_CSS = """
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 :root {
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --navy: #0f172a;
     --navy-2: #16213a;
     --accent: #2f6fed;
@@ -20,6 +22,9 @@ THEME_CSS = """
 }
 
 /* ---- overall app background ---- */
+html, body, [class*="css"], [data-testid="stAppViewContainer"] {
+    font-family: var(--font-ui) !important;
+}
 [data-testid="stAppViewContainer"] {
     background: #f4f6fb;
 }
@@ -398,6 +403,100 @@ hr.soft {
 /* ---- file uploader dashed box ---- */
 [data-testid="stFileUploaderDropzone"] {
     border-radius: 12px;
+}
+
+/* Assistant prompt suggestions look like compact chips. */
+div[data-testid="stButton"] button[kind="secondary"] {
+    transition: transform .12s ease, box-shadow .12s ease;
+}
+[class*="st-key-sugg_"] button {
+    border-radius: 999px !important;
+    background: #eef2ff !important;
+    border: 1px solid #c7d2fe !important;
+    color: #1d4ed8 !important;
+    font-size: .82rem !important;
+}
+[class*="st-key-sugg_"] button:hover {
+    background: #dbeafe !important;
+    transform: translateY(-1px);
+}
+div[data-testid="stButton"] button:hover {
+    box-shadow: 0 2px 10px rgba(15,23,42,.08);
+}
+</style>
+"""
+
+DARK_THEME_CSS = """
+<style>
+/* Apply dark colors to Streamlit's main canvas, sidebar, chrome and widgets.
+   Use specific selectors + !important to override the active Streamlit theme. */
+:root {
+    color-scheme: dark;
+    --background-color: #0b1220;
+    --secondary-background-color: #111c2f;
+    --text-color: #e5e7eb;
+}
+html, body, [data-testid="stApp"], [data-testid="stAppViewContainer"],
+[data-testid="stMain"], .main, .block-container {
+    background: #0b1220 !important;
+    color: #e5e7eb !important;
+}
+[data-testid="stSidebar"], [data-testid="stSidebar"] > div,
+[data-testid="stSidebarContent"], [data-testid="stSidebarUserContent"] {
+    background: #0f1929 !important;
+    color: #e5e7eb !important;
+}
+header[data-testid="stHeader"], [data-testid="stToolbar"],
+[data-testid="stDecoration"] {
+    background: #0b1220 !important;
+    color: #e5e7eb !important;
+}
+[data-testid="stVerticalBlockBorderWrapper"],
+[data-testid="stExpander"], [data-testid="stPopover"] {
+    background: #111c2f !important;
+    border-color: #263449 !important;
+    color: #e5e7eb !important;
+}
+[data-testid="stMarkdownContainer"], [data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li, [data-testid="stMarkdownContainer"] span,
+[data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] p,
+[data-testid="stCaptionContainer"], label, .page-title, .card-heading,
+.stat-value, .sidebar-section-label, .sidebar-status-row {
+    color: #e5e7eb !important;
+}
+.breadcrumb, .page-subtitle, .stat-label, [data-testid="stCaptionContainer"] p {
+    color: #a7b4c8 !important;
+}
+.topbar-user, .sidebar-brand, .sidebar-status-row {
+    background-color: #172338 !important;
+    color: #f8fafc !important;
+}
+[data-testid="stTextInput"] input, [data-testid="stNumberInput"] input,
+[data-testid="stTextArea"] textarea, [data-testid="stDateInput"] input,
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+[data-testid="stMultiSelect"] div[data-baseweb="select"] > div {
+    background: #172338 !important;
+    color: #f8fafc !important;
+    border-color: #3a4a61 !important;
+}
+[data-testid="stButton"] button, [data-testid="stDownloadButton"] button,
+[data-testid="stFormSubmitButton"] button {
+    border-color: #3a4a61 !important;
+}
+[data-testid="stButton"] button[kind="secondary"],
+[data-testid="stDownloadButton"] button[kind="secondary"] {
+    background: #172338 !important;
+    color: #e5e7eb !important;
+}
+[data-testid="stDataFrame"], [data-testid="stTable"] {
+    filter: brightness(.88);
+}
+[data-testid="stAlert"] { color: #e5e7eb !important; }
+/* Keep brand-specific cards and risk badges legible in dark mode. */
+.stat-card, .app-card, .metric-card, .report-card {
+    background: #111c2f !important;
+    border-color: #263449 !important;
+    color: #e5e7eb !important;
 }
 </style>
 """

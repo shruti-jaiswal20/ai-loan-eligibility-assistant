@@ -6,7 +6,7 @@ version: "3.9"
 #
 # The optional `localstack` service emulates AWS S3 locally so the S3
 # integration (utils/s3_storage.py) can be exercised end-to-end without a
-# real AWS account — useful for local development and for grading/demo
+# real AWS account — useful for local development and for demo
 # purposes when real AWS credentials aren't available. Comment it out (and
 # leave S3_* unset in .env) to run purely in local-disk mode instead.
 

@@ -40,8 +40,13 @@ Graph shape:
 from __future__ import annotations
 
 import logging
+import os
+import sqlite3
+import time
+from pathlib import Path
+
 from langgraph.graph import StateGraph, END
-from langgraph.checkpoint.memory import MemorySaver
+from langgraph.checkpoint.sqlite import SqliteSaver
 
 from workflow.state import LoanAssessmentState
 from agents.document_agent import process_document
@@ -66,14 +71,17 @@ def _safe_step(node_name):
     requirement without every agent needing its own try/except."""
     def decorator(fn):
         def wrapper(state: LoanAssessmentState) -> dict:
+            started = time.perf_counter()
             try:
-                result = fn(state)
-                result = dict(result)
-                result["trace"] = [f"[OK] {node_name}"]
+                result = dict(fn(state))
+                elapsed_ms = (time.perf_counter() - started) * 1000
+                result["trace"] = [f"[OK] {node_name} ({elapsed_ms:.1f} ms)"]
                 return result
             except Exception as e:  # noqa: BLE001
+                elapsed_ms = (time.perf_counter() - started) * 1000
                 logger.exception("Node %s failed", node_name)
-                return {"errors": [f"{node_name}: {e}"], "trace": [f"[ERROR] {node_name}: {e}"]}
+                return {"errors": [f"{node_name}: {e}"],
+                        "trace": [f"[ERROR] {node_name} ({elapsed_ms:.1f} ms): {e}"]}
         return wrapper
     return decorator
 
@@ -117,12 +125,15 @@ def router_node(state: LoanAssessmentState) -> dict:
     credit_score = applicant.get("credit_score", 0)
     default = applicant.get("bank_default_history", False)
 
-    if amount <= EXPEDITED_LOAN_CEILING and credit_score >= EXPEDITED_CREDIT_FLOOR and not default:
+    thresholds = state.get("policy_thresholds") or {}
+    expedited_ceiling = thresholds.get("expedited_loan_ceiling", EXPEDITED_LOAN_CEILING)
+    expedited_credit_floor = thresholds.get("expedited_credit_floor", EXPEDITED_CREDIT_FLOOR)
+    if amount <= expedited_ceiling and credit_score >= expedited_credit_floor and not default:
         return {
             "route": "expedited",
             "route_reason": (
-                f"Loan amount INR {amount:,} <= INR {EXPEDITED_LOAN_CEILING:,} and "
-                f"credit score {credit_score} >= {EXPEDITED_CREDIT_FLOOR} with no default "
+                f"Loan amount INR {amount:,} <= INR {expedited_ceiling:,} and "
+                f"credit score {credit_score} >= {expedited_credit_floor} with no default "
                 "history -> routed to the expedited fast-track path (Risk Agent will skip "
                 "the LLM call and use the deterministic rule engine)."
             ),
@@ -156,6 +167,7 @@ def risk_assessment_node(state: LoanAssessmentState) -> dict:
     return run_risk_classification(
         state["applicant"], state["financial_metrics"], state["route"],
         state.get("policy_context", ""), state.get("policy_chunks", []),
+        state.get("policy_thresholds"),
     )
 
 
@@ -211,7 +223,11 @@ def fan_out_after_router(state: LoanAssessmentState) -> list[str]:
     return ["financial_analysis", "policy_retrieval"]
 
 
+_CHECKPOINTER = None
+
+
 def build_graph():
+    global _CHECKPOINTER
     graph = StateGraph(LoanAssessmentState)
 
     graph.add_node("document_extraction", document_extraction_node)
@@ -245,11 +261,17 @@ def build_graph():
     graph.add_edge("human_approval_gate", "finalize")
     graph.add_edge("finalize", END)
 
-    # Memory/context handling: MemorySaver checkpoints full state per
-    # thread_id (one thread per applicant_id), so a session can be resumed
-    # (e.g. after the human approval interrupt) with full prior context.
-    checkpointer = MemorySaver()
-
+    # Durable checkpoints survive Streamlit reruns, container restarts, and
+    # process restarts. Mount /app/data as a persistent Docker volume in production.
+    checkpoint_path = Path(os.getenv(
+        "LANGGRAPH_CHECKPOINT_DB",
+        str(Path(__file__).resolve().parent.parent / "data" / "checkpoints.db"),
+    ))
+    checkpoint_path.parent.mkdir(parents=True, exist_ok=True)
+    connection = sqlite3.connect(str(checkpoint_path), check_same_thread=False)
+    checkpointer = SqliteSaver(connection)
+    checkpointer.setup()
+    _CHECKPOINTER = checkpointer
     compiled = graph.compile(
         checkpointer=checkpointer,
         interrupt_before=["human_approval_gate"],
@@ -272,19 +294,42 @@ def get_app():
     return _APP
 
 
-def run_until_human_review(applicant: dict, document: dict | None = None) -> LoanAssessmentState:
+def run_until_human_review(applicant: dict, document: dict | None = None,
+                           policy_thresholds: dict | None = None,
+                           progress_callback=None) -> LoanAssessmentState:
     """Runs the graph from the start up to (but not including) the human
     approval gate. `document` = {"path","filename","storage_uri"} for an uploaded PDF.
     Returns the accumulated state for the UI to display."""
     app = get_app()
     thread_id = applicant["applicant_id"]
     config = {"configurable": {"thread_id": thread_id}}
-    initial_state: LoanAssessmentState = {"applicant": applicant, "document": document,
-                                          "errors": [], "trace": []}
+    # Starting a new assessment for the same applicant must not inherit a
+    # previous run's trace or human decision. The saved assessment history
+    # remains available independently in assessment_history.json.
+    if _CHECKPOINTER is not None:
+        try:
+            _CHECKPOINTER.delete_thread(thread_id)
+        except Exception:
+            logger.debug("No prior checkpoint to clear for %s", thread_id, exc_info=True)
+    initial_state: LoanAssessmentState = {
+        "applicant": applicant, "document": document,
+        "policy_thresholds": policy_thresholds or {},
+        "errors": [], "trace": [],
+    }
 
     log_event("assessment_started", applicant["applicant_id"],
               {"applicant": applicant, "has_document": bool(document)})
-    result = app.invoke(initial_state, config=config)
+    # Stream actual node completions so the UI can report genuine progress
+    # rather than animating a fake timeline.
+    for update in app.stream(initial_state, config=config, stream_mode="updates"):
+        for node_name, node_update in update.items():
+            if progress_callback:
+                try:
+                    progress_callback(node_name, node_update or {})
+                except Exception:  # UI feedback must never break the workflow
+                    logger.debug("Progress callback failed for %s", node_name, exc_info=True)
+    snapshot = app.get_state(config)
+    result = snapshot.values if snapshot else {}
     import time as _t
     _CASES[applicant["applicant_id"]] = _t.time()
 

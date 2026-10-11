@@ -22,33 +22,39 @@ from agents.llm_client import generate
 from rag.retriever import retrieve_policy_context, format_context
 
 
-def _rule_based_risk(metrics: dict) -> tuple[str, str]:
+def _rule_based_risk(metrics: dict, thresholds: dict | None = None) -> tuple[str, str]:
     """Deterministic fallback classifier mirroring the policy PDFs -
     used as the MOCK-mode output, the expedited fast-track path, and a
     safety cross-check for the LLM path."""
+    thresholds = thresholds or {}
+    low_dti = float(thresholds.get("low_dti", 0.35))
+    high_dti = float(thresholds.get("high_dti", 0.50))
+    high_credit_floor = int(thresholds.get("high_credit_floor", 650))
+    low_credit_floor = int(thresholds.get("low_credit_floor", 700))
+    minimum_job_tenure = float(thresholds.get("minimum_job_tenure", 1.0))
     dti = metrics["dti_ratio"]
     credit = metrics["credit_score"]
     default = metrics["prior_default"]
     tenure = metrics["years_at_current_job"]
 
-    if default or dti > 0.50 or credit < 650:
+    if default or dti > high_dti or credit < high_credit_floor:
         return "HIGH", (
             f"Classified HIGH risk because "
             + ("the applicant has a prior default on record. " if default else "")
-            + (f"DTI ratio is {dti:.2f} (> 0.50 threshold). " if dti > 0.50 else "")
-            + (f"Credit score is {credit} (< 650 threshold). " if credit < 650 else "")
+            + (f"DTI ratio is {dti:.2f} (> {high_dti:.2f} threshold). " if dti > high_dti else "")
+            + (f"Credit score is {credit} (< {high_credit_floor} threshold). " if credit < high_credit_floor else "")
         )
     # Policy: LOW needs DTI <= 0.35 AND tenure >= 1y; anything between the LOW and HIGH limits is MEDIUM
     # (the policy text says '0.36-0.50' for convenience, but values such as 0.355 must not fall in a gap).
-    if 650 <= credit <= 699 or 0.35 < dti <= 0.50 or tenure < 1:
+    if high_credit_floor <= credit < low_credit_floor or low_dti < dti <= high_dti or tenure < minimum_job_tenure:
         return "MEDIUM", (
             f"Classified MEDIUM risk based on credit score {credit}, DTI ratio "
             f"{dti:.2f}, and {tenure} years at current job — falls into the "
             "policy's 'Fair' / medium-risk band requiring manual underwriter review."
         )
     return "LOW", (
-        f"Classified LOW risk: credit score {credit} (>=700), DTI ratio {dti:.2f} "
-        f"(<=0.35), no prior default, and stable employment tenure of {tenure} years."
+        f"Classified LOW risk: credit score {credit} (>={low_credit_floor}), DTI ratio {dti:.2f} "
+        f"(<={low_dti:.2f}), no prior default, and stable employment tenure of {tenure} years."
     )
 
 
@@ -70,10 +76,11 @@ def run_policy_retrieval(applicant: dict) -> dict:
 
 
 def run_risk_classification(applicant: dict, metrics: dict, route: str,
-                             policy_context: str, policy_chunks: list) -> dict:
+                             policy_context: str, policy_chunks: list,
+                             thresholds: dict | None = None) -> dict:
     """Phase 2 (join step). Runs after BOTH the Financial Analysis node and
     the Policy Retrieval node have completed."""
-    rule_risk, rule_explanation = _rule_based_risk(metrics)
+    rule_risk, rule_explanation = _rule_based_risk(metrics, thresholds)
 
     if route == "expedited":
         # Fast-track: skip the LLM call entirely. This is the router's
