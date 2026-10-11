@@ -93,13 +93,13 @@ agents/
   recommendation_agent.py   APPROVE / REJECT / REFER_FOR_MANUAL_REVIEW
   chat_agent.py             assistant: LangGraph tool loop, LLM planner + rule-based planner, memory
   chat_tools.py             the assistant's tools (no decision tool)
-  llm_client.py             OpenAI-compatible client: retries, timeout, mock mode, tool-calling
+  llm_client.py             OpenAI-compatible client: retries, timeout, tool-calling
 workflow/                   LangGraph state + graph (parallel fan-out/join, interrupt, checkpointer)
 rag/                        ingest + retriever (FAISS; offline TF-IDF/SVD embeddings or OpenAI)
 utils/                      schemas (Pydantic), audit_log, logging_config, s3_storage, portfolio, insights
 data_generation/            synthetic applicants, form PDFs, policy PDFs
 deployment/ · docker-compose.yml · .github/workflows/tests.yml
-tests/                      backend, documents, S3 (moto), assistant (fake OpenAI server), UI (AppTest), rules
+tests/                      backend, documents, S3, assistant, UI (AppTest), rules
 ```
 
 ## Known limitations
