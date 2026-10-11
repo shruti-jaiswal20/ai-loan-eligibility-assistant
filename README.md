@@ -104,10 +104,6 @@ tests/                      backend, documents, S3 (moto), assistant (fake OpenA
 
 ## Known limitations
 
-* **State is in memory.** The LangGraph checkpointer and the case registry live in the app process, so a
-  case paused for human review is lost on restart, and all browser sessions share one process (single-user
-  demo, no authentication). Audit events and uploaded files do persist (disk, and S3 when configured).
-  Production would use a durable checkpointer (PostgreSQL/DynamoDB) and SSO.
 * **No OCR.** Only PDFs with a text layer in the standard form layout are parsed; others fail clearly.
 * **Decisions are rule-based.** The LLM explains and summarizes; thresholds come from the synthetic policy PDFs.
 * **Dashboard counts** are a rule-based pass over synthetic data, not agent results. The *Assessments* page
